@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paleta de segurança (tema escuro) -->
+    <color name="preto">#0A0E14</color>
+    <color name="preto_suave">#131820</color>
+    <color name="cinza_escuro">#1B2230</color>
+    <color name="cinza_medio">#2A3142</color>
+    <color name="cinza_claro">#8A93A6</color>
+
+    <!-- Acentos -->
+    <color name="ciano">#00E5FF</color>
+    <color name="ciano_escuro">#00B8D4</color>
+    <color name="verde">#00E676</color>
+    <color name="verde_escuro">#00C853</color>
+    <color name="vermelho">#FF5252</color>
+    <color name="amarelo">#FFC400</color>
+
+    <!-- Texto -->
+    <color name="texto_primario">#F5F7FA</color>
+    <color name="texto_secundario">#A8B0BD</color>
+    <color name="texto_desabilitado">#5A6273</color>
+
+    <!-- Background -->
+    <color name="bg_tela">#0A0E14</color>
+    <color name="bg_card">#131820</color>
+    <color name="bg_card_destaque">#1B2230</color>
+
+    <!-- Estados -->
+    <color name="ativo_verde">#1B3A2A</color>
+    <color name="ativo_verde_borda">#00E676</color>
+    <color name="inativo_vermelho">#3A1B1B</color>
+    <color name="inativo_vermelho_borda">#FF5252</color>
+
+    <!-- Pixel/branco p/ ícones -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+</resources>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ===== Permissões de telefone (bloqueio de chamadas) ===== -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ANSWER_PHONE_CALLS" />
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
+
+    <!-- ===== Permissões de contatos (whitelist) ===== -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <!-- ===== Permissões de inicialização e segundo plano ===== -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_CALL_SCREENING" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- ===== Permissões de internet (validação de código + pagamento) ===== -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- ===== Permissões de armazenamento (exportar log CSV) ===== -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <application
+        android:name=".App"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.BloqueadorBR"
+        android:requestLegacyExternalStorage="true"
+        tools:targetApi="34">
+
+        <!-- ===== Tela inicial (Onboarding / Dashboard) ===== -->
+        <activity
+            android:name=".ui.onboarding.OnboardingActivity"
+            android:exported="true"
+            android:theme="@style/Theme.BloqueadorBR.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.BloqueadorBR.NoActionBar" />
+
+        <activity
+            android:name=".ui.whitelist.WhitelistActivity"
+            android:exported="false"
+            android:label="@string/titulo_whitelist"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ui.payment.PaymentActivity"
+            android:exported="false"
+            android:label="@string/titulo_pagamento"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ui.activation.ActivationActivity"
+            android:exported="false"
+            android:label="@string/titulo_ativacao"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ui.blocked.BlockedCallsActivity"
+            android:exported="false"
+            android:label="@string/titulo_bloqueadas"
+            android:parentActivityName=".MainActivity" />
+
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:exported="false"
+            android:label="@string/titulo_config"
+            android:parentActivityName=".MainActivity" />
+
+        <!-- ===== Activity proxy que faz o app aparecer como "app de telefone padrão" =====
+             Ela recebe o intent DIAL e redireciona para o discador nativo do sistema.
+             Necessária para o CallScreeningService funcionar em Android 10+. -->
+        <activity
+            android:name=".ui.dialer.ProxyDialerActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.DIAL" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tel" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.DIAL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tel" />
+            </intent-filter>
+        </activity>
+
+        <!-- ===== Serviço de bloqueio de chamadas (Android 7+) ===== -->
+        <service
+            android:name=".service.CallBlockerService"
+            android:exported="true"
+            android:permission="android.permission.BIND_SCREENING_SERVICE">
+            <intent-filter>
+                <action android:name="android.telecom.CallScreeningService" />
+            </intent-filter>
+        </service>
+
+        <!-- ===== Receiver para Android 4.4-6 (compatibilidade) ===== -->
+        <receiver
+            android:name=".receiver.CallReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
+
+        <!-- ===== Receiver de boot (reiniciar serviço) ===== -->
+        <receiver
+            android:name=".receiver.BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Provedor para compartilhar arquivo do log CSV -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+
+</manifest>
