@@ -146,10 +146,10 @@ class WhitelistActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val prefs = App.instance.prefs
             val db = App.instance.database
-            // Trial: limite 30 contatos. Vitalício: ilimitado.
+            // Trial: limite 11 contatos. Vitalício: ilimitado.
             if (!prefs.ativado) {
                 val atual = db.whitelistDao().contar()
-                if (atual >= 30) {
+                if (atual >= 11) {
                     android.widget.Toast.makeText(
                         this@WhitelistActivity,
                         getString(R.string.wl_limite_atingido),

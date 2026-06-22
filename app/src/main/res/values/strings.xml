@@ -38,7 +38,7 @@
     <string name="dash_card_config_desc">Ajuste o comportamento do bloqueio</string>
     <string name="dash_desativar_protecao">Desativar proteção temporariamente</string>
     <string name="dash_ativar_protecao">Ativar proteção</string>
-    <string name="dash_trial_msg">Versão gratuita: até 30 contatos. Doe R$ 1,30 vitalício para apoiar o projeto e liberar contatos ILIMITADOS.</string>
+    <string name="dash_trial_msg">Versão gratuita: até 11 contatos. Doe R$ 4,99 vitalício para apoiar o projeto e liberar contatos ILIMITADOS.</string>
     <string name="dash_premium_msg">Versão vitalícia ativada. Contatos ILIMITADOS. Muito obrigado pela doação! ❤️</string>
 
     <!-- ===== Whitelist ===== -->
@@ -50,9 +50,9 @@
     <string name="wl_btn_digitar">Digitar número manualmente</string>
     <string name="wl_digite_nome">Nome (ex: Mãe, Filho, Médico)</string>
     <string name="wl_digite_telefone">Telefone (com DDD)</string>
-    <string name="wl_limite_trial">Versão gratuita: %1$d de 30 contatos</string>
+    <string name="wl_limite_trial">Versão gratuita: %1$d de 11 contatos</string>
     <string name="wl_limite_premium">Versão vitalícia: %1$d contatos (ilimitado) ❤️</string>
-    <string name="wl_limite_atingido">Limite de 30 contatos atingido. Doe R$ 1,30 vitalício para liberar contatos ILIMITADOS.</string>
+    <string name="wl_limite_atingido">Limite de 11 contatos atingido. Doe R$ 4,99 vitalício para liberar contatos ILIMITADOS.</string>
     <string name="wl_remover">Remover</string>
     <string name="wl_remover_pergunta">Remover %1$s da sua lista?</string>
     <string name="wl_sim">Sim, remover</string>
@@ -62,15 +62,15 @@
 
     <!-- ===== Pagamento (Doação) ===== -->
     <string name="titulo_pagamento">Doação vitalícia — Apoie o projeto</string>
-    <string name="pag_valor">R$ 1,30 (doação única vitalícia)</string>
+    <string name="pag_valor">R$ 4,99 (doação única vitalícia)</string>
     <string name="pag_beneficio1">Contatos ILIMITADOS na lista de confiança</string>
     <string name="pag_beneficio2">Bloqueio silencioso vitalício (para sempre)</string>
     <string name="pag_beneficio3">Atualizações gratuitas para sempre</string>
     <string name="pag_beneficio4">Sem mensalidade, sem renovação automática</string>
-    <string name="pag_msg_doacao">💛 Esta é uma DOAÇÃO, não uma compra. Ela ajuda o desenvolvedor a manter o projeto vivo, pagar servidores e melhorar o app para todos os brasileiros. Cada R$ 1,30 faz diferença!</string>
+    <string name="pag_msg_doacao">💛 Esta é uma DOAÇÃO, não uma compra. Ela ajuda o desenvolvedor a manter o projeto vivo, pagar servidores e melhorar o app para todos os brasileiros. Cada doação faz diferença!</string>
     <string name="pag_como_pagar">Como doar via PIX:</string>
     <string name="pag_passo1">1. Escaneie o QR Code abaixo com seu app de banco</string>
-    <string name="pag_passo2">2. Doe R$ 1,30 via PIX para o NUBANK</string>
+    <string name="pag_passo2">2. Doe R$ 4,99 via PIX</string>
     <string name="pag_passo3">3. Anote o comprovante (ID da transação)</string>
     <string name="pag_passo4">4. Informe seu email e o ID abaixo</string>
     <string name="pag_passo5">5. Você receberá o código vitalício no email</string>
@@ -78,10 +78,10 @@
     <string name="pag_comprovante">ID do comprovante (opcional)</string>
     <string name="pag_btn_confirmar">Confirmar doação</string>
     <string name="pag_btn_pagar">Já doei — receber código</string>
-    <string name="pag_aviso">Após confirmar, você receberá o código de 9 linhas no email informado. O código também pode aparecer aqui no app em alguns minutos.</string>
+    <string name="pag_aviso">Após confirmar, o código de 9 linhas será enviado do email arielcloss@gmail.com para o email que você informar. O código também pode aparecer aqui no app em alguns minutos.</string>
     <string name="pag_erro_email">Informe um email válido</string>
-    <string name="pag_sucesso">Doação registrada! Verifique seu email em até 30 minutos. Muito obrigado! ❤️</string>
-    <string name="pag_chave_pix">Chave PIX (email):\narielcloss@gmail.com\nBanco: NUBANK</string>
+    <string name="pag_sucesso">Doação registrada! Verifique seu email (incluindo spam) em até 30 minutos. O remetente é arielcloss@gmail.com. Muito obrigado! ❤️</string>
+    <string name="pag_chave_pix">Chaves PIX:\nTelefone: +55 69 9342-7132\nEmail: arielcloss@gmail.com\nBanco: NUBANK</string>
 
     <!-- ===== Ativação ===== -->
     <string name="titulo_ativacao">Ativar com código</string>
@@ -114,7 +114,7 @@
     <string name="cfg_notif">Avisar ao bloquear (silencioso)</string>
     <string name="cfg_notif_desc">Notificação sem som/vibração ao bloquear uma chamada</string>
     <string name="cfg_sobre">Sobre o app</string>
-    <string name="cfg_versao">Versão 1.0.0</string>
+    <string name="cfg_versao">Versão 1.0 - Jaguatirica</string>
     <string name="cfg_legal">Aviso legal: este app é uma ferramenta de proteção. Não substitui denúncia formal à Anatel/Polícia.</string>
 
     <!-- ===== Comuns ===== -->

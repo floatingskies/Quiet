@@ -1,10 +1,14 @@
 # 🛡️ Quiet
 
+**Versão 1.0 - Jaguatirica**
+
 App Android que **bloqueia 100% das chamadas** que não estão na sua **lista de confiança** (whitelist). Feito para o povo brasileiro cansado de golpes de ligação, ligações mudas que gravam sua voz, e spam telefônico.
 
 > **Proteção vitalícia contra golpes.** Quem não está na sua lista é **desligado na cara** — sem toque, sem chamada perdida, sem notificação, sem susto.
 
 **Application ID:** `org.floatingskies.Quiet`
+**Desenvolvedor:** Ariel Closs
+**Contato:** arielcloss@gmail.com
 
 ---
 
@@ -18,9 +22,48 @@ App Android que **bloqueia 100% das chamadas** que não estão na sua **lista de
 - ✅ **Modo paranóia**: se a lista estiver vazia, **TODAS** as chamadas são bloqueadas
 - ✅ **Log de chamadas bloqueadas**: veja quem tentou e quantas vezes
 - ✅ **Exportar CSV**: para denúncia na Anatel/Polícia Civil
-- ✅ **Ativação vitalícia**: 1 pagamento, código de 9 linhas, funciona para sempre
+- ✅ **Não substitui o Google Telefone**: você só autoriza o Quiet a filtrar chamadas (via `ROLE_CALL_SCREENING`)
+- ✅ **Ativação vitalícia**: 1 doação, código de 9 linhas, funciona para sempre
 - ✅ **Compartilhável**: o código pode ser enviado a familiares
 - ✅ **Funciona offline**: a validação do código é 100% local (SHA-256)
+
+---
+
+## 🆓 Versão gratuita vs 💛 Versão vitalícia
+
+| Recurso | Gratuita | Vitalícia (doador) |
+|---------|----------|---------------------|
+| **Contatos na whitelist** | até **11** | **∞ ILIMITADO** |
+| Bloqueio silencioso | ✅ | ✅ |
+| Bloqueio de ocultos | ✅ | ✅ |
+| Log de bloqueadas | ✅ | ✅ |
+| Exportar CSV | ✅ | ✅ |
+| Atualizações futuras | ✅ | ✅ |
+| **Preço** | R$ 0,00 | **R$ 4,99 (doação única vitalícia)** |
+
+---
+
+## 💛 Doação vitalícia — R$ 4,99
+
+Esta é uma **doação**, não uma compra. Ela ajuda o desenvolvedor a manter o projeto vivo, pagar servidores e melhorar o app para todos os brasileiros.
+
+### Chaves PIX (NUBANK — Ariel Closs)
+
+| Tipo | Chave |
+|------|-------|
+| 📞 **Telefone** | `+55 69 9342-7132` |
+| 📧 **Email** | `arielcloss@gmail.com` |
+
+### Fluxo de ativação
+
+1. Usuário paga **R$ 4,99** via PIX (escaneia o QR Code no app ou usa uma das chaves acima)
+2. Informa o email dele e o ID do comprovante dentro do app
+3. O desenvolvedor (Ariel) recebe a notificação do PIX no NUBANK
+4. Gera um código de 9 linhas com `ferramentas/gerar_codigo.py`
+5. Envia o código por email **do `arielcloss@gmail.com`** para o cliente
+6. Cliente cola o código na tela de ativação do app → pronto!
+
+> ⚠️ O app em si não envia email automaticamente. O desenvolvedor precisa gerar o código e enviar manualmente por email. Em uma versão futura, pode-se adicionar um backend (ex.: Google Apps Script + Gmail API) para automatizar o fluxo.
 
 ---
 
@@ -30,10 +73,17 @@ App Android que **bloqueia 100% das chamadas** que não estão na sua **lista de
 |---------|--------|--------|---------------------|
 | 5.0-5.1 | Lollipop | ✅ Funciona com limitações | `ITelephony.endCall()` via reflexão |
 | 6.0 | Marshmallow | ✅ Funciona | `ITelephony.endCall()` via reflexão |
-| 7.0-9.0 | Nougat-Pie | ✅ **100% silencioso** | `CallScreeningService` |
-| 10-14 | Q-UpsideDownCake | ✅ **100% silencioso** | `CallScreeningService` (requer ser app de telefone padrão) |
+| 7.0-9.0 | Nougat-Pie | ✅ **100% silencioso** | `CallScreeningService` (direto) |
+| 10-14 | Q-UpsideDownCake | ✅ **100% silencioso** | `CallScreeningService` (via `ROLE_CALL_SCREENING`) |
 
-> **Nota sobre Android 4.4 (KitKat)**: descontinuado pelas bibliotecas modernas do AndroidX. Representa <0.5% do mercado brasileiro em 2024. Para suporte legado, seria necessário rebaixar todas as bibliotecas para versões de 2018-2019 (não recomendado).
+### 🎯 Não substitui o discador padrão (Android 10+)
+
+No Android 10+, o Quiet usa o **`ROLE_CALL_SCREENING`** (via `RoleManager`) para ser autorizado como "app de filtragem de chamadas". Isso significa:
+
+- ✅ **O Google Telefone (ou Samsung Phone, etc.) continua sendo o discador padrão**
+- ✅ Você faz e recebe ligações normalmente pelo discador nativo
+- ✅ O Quiet só decide se bloqueia ou não cada chamada recebida (callback do `CallScreeningService`)
+- ✅ Mesma abordagem usada por Truecaller, Should I Answer?, etc.
 
 ### ⚠️ Limitações conhecidas (Android 5.0-6.0)
 
@@ -62,7 +112,7 @@ Testado e compatível com:
 ### Pré-requisitos
 
 1. **Android Studio Hedgehog ou superior** (download: https://developer.android.com/studio)
-2. **JDK 17** (instalado junto com Android Studio)
+2. **JDK 17** (recomendado: jbr-17 embutido ou OpenJDK 17)
 3. **Android SDK Platform 34** (Android 14) — Android Studio instala automaticamente
 4. **Build Tools 34.0.0**
 5. Internet para baixar as dependências do Gradle pela primeira vez
@@ -73,12 +123,13 @@ Testado e compatível com:
 # 1. Copie a pasta BloqueadorChamadasBR para seu computador
 # 2. Abra o Android Studio → "Open" → selecione a pasta BloqueadorChamadasBR
 
-# 3. Aguarde o Gradle sincronizar (5-15 min na primeira vez)
+# 3. Escolha o Gradle JDK: jbr-17 (preferencial) ou Embedded JDK
+# 4. Aguarde o Gradle sincronizar (5-15 min na primeira vez)
 
-# 4. Para gerar o APK de debug (para testar):
+# 5. Para gerar o APK de debug (para testar):
 #    Menu Build → Build Bundle(s)/APK(s) → Build APK(s)
 
-# 5. Para gerar o APK de release (para distribuir):
+# 6. Para gerar o APK de release (para distribuir):
 #    Menu Build → Generate Signed Bundle / APK → APK
 #    Crie uma keystore (primeira vez) e preencha os dados
 ```
@@ -109,7 +160,7 @@ gradlew.bat assembleRelease
 4. O app valida offline: recalcula a assinatura e compara com a 9ª linha
 5. **Sem internet necessária** para validar
 
-### Gerar códigos para clientes pagantes
+### Gerar códigos para clientes doadores
 
 Use o script Python na pasta `ferramentas/`:
 
@@ -142,14 +193,17 @@ AY70-Y8QI-DL4L
 6435-4860-50F0
 ```
 
-### Fluxo de pagamento (recomendado)
+### Fluxo recomendado para enviar o código
 
-1. Cliente paga R$ 39,90 via PIX (QR Code no app)
-2. Cliente informa email + ID do comprovante no app
-3. Você (desenvolvedor) recebe a notificação do PIX
-4. Gera um código com `gerar_codigo.py`
-5. Envia o código por email ao cliente
-6. Cliente cola o código na tela de ativação → pronto!
+1. Cliente paga **R$ 4,99** via PIX (chaves: `+55 69 9342-7132` ou `arielcloss@gmail.com`)
+2. Cliente informa o email dele dentro do app
+3. Você (Ariel) recebe a notificação do PIX no NUBANK
+4. Gera o código: `python3 ferramentas/gerar_codigo.py -n 1`
+5. Copia o código
+6. Envia um email do `arielcloss@gmail.com` para o cliente, com:
+   - Assunto: "Seu código vitalício Quiet 🛡️"
+   - Corpo: o código de 9 linhas + instruções para colar no app
+7. Cliente cola o código na tela de ativação → vitalício liberado!
 
 > **Importante**: O segredo `BloqueadorBR-2024-Lifetime-Protect-Key` está embarcado no APK. Um usuário técnico poderia extraí-lo (fazendo engenharia reversa) e gerar códigos próprios. Para máxima segurança, em uma versão futura, considere adicionar validação online (backend) que verifique o código contra um banco de dados de códigos emitidos.
 
@@ -164,16 +218,18 @@ BloqueadorChamadasBR/
 │   ├── proguard-rules.pro                    # Regras de ofuscação
 │   └── src/main/
 │       ├── AndroidManifest.xml               # Permissões + declaração de serviços
-│       ├── java/com/brazil/bloqueador/
+│       ├── java/org/floatingskies/quiet/
 │       │   ├── App.kt                        # Application class (init)
 │       │   ├── MainActivity.kt               # Dashboard principal
 │       │   ├── data/                         # Camada Room (Whitelist + BlockedCalls)
 │       │   ├── service/
-│       │   │   └── CallBlockerService.kt     # ⭐ CallScreeningService (Android 7+)
+│       │   │   └── CallBlockerService.kt     # ⭐ CallScreeningService (bloqueio silencioso)
 │       │   ├── receiver/
-│       │   │   ├── CallReceiver.kt           # Receiver legado (Android 4.4-6)
+│       │   │   ├── CallReceiver.kt           # Receiver legado (Android 5-6)
 │       │   │   └── BootReceiver.kt           # Reativa no boot
 │       │   ├── ui/
+│       │   │   ├── dialer/
+│       │   │   │   └── ProxyDialerActivity.kt # Fallback para discador padrão
 │       │   │   ├── onboarding/               # Tela inicial + permissões
 │       │   │   ├── whitelist/                # Lista de confiança
 │       │   │   ├── payment/                  # Pagamento PIX
@@ -183,13 +239,13 @@ BloqueadorChamadasBR/
 │       │   └── util/
 │       │       ├── PhoneUtils.kt             # Normalização de números BR
 │       │       ├── ActivationValidator.kt    # Validação SHA-256
-│       │       ├── PermissionHelper.kt       # Permissões
-│       │       └── PrefsManager.kt           # SharedPreferences criptografados
+│       │       ├── PermissionHelper.kt       # Permissões + ROLE_CALL_SCREENING
+│       │       └── PrefsManager.kt           # SharedPreferences
 │       └── res/
 │           ├── layout/                       # Telas XML
 │           ├── values/                       # Cores, strings (PT-BR), estilos
-│           ├── drawable/                     # Ícones vetoriais
-│           └── mipmap-anydpi-v26/            # Ícone do launcher
+│           ├── drawable/                     # Ícones vetoriais + logo PNG
+│           └── mipmap-*/                     # Ícone do launcher em 5 densidades
 ├── ferramentas/
 │   └── gerar_codigo.py                       # Gerador de códigos de ativação
 ├── build.gradle                              # Top-level
@@ -208,6 +264,15 @@ BloqueadorChamadasBR/
 - **DB**: Room 2.6.1
 - **QR Code**: ZXing + zxing-android-embedded
 - **Build**: Gradle 8.2 + Android Gradle Plugin 8.1.4
+- **Logo**: `org.floatingskies.Quiet.png` (PNG 512x512 RGBA, em todas as densidades)
+
+---
+
+## 📜 Versionamento
+
+| Versão | Codinome | Descrição |
+|--------|----------|-----------|
+| 1.0 | **Jaguatirica** | Versão inicial pública. Bloqueio silencioso via CallScreeningService, whitelist, doação vitalícia R$ 4,99, role-based call screening. |
 
 ---
 
@@ -229,17 +294,24 @@ O app bloqueia chamadas baseado **apenas no número de telefone**. Não identifi
 
 | Problema | Solução |
 |----------|---------|
-| "O app não bloqueia nada" | Verifique se concedeu todas as permissões (telefone, contatos, overlay, bateria) |
-| "Aparece chamada perdida mesmo assim" | Você está em Android 4.4-6.0 (limitação do sistema). Em 7+ funciona 100% silencioso |
+| "O app não bloqueia nada" | Verifique se concedeu o **ROLE_CALL_SCREENING** (Android 10+) na tela inicial |
+| "Não aparece o diálogo de filtragem de chamadas" | Toque em "App de filtragem de chamadas" na tela inicial do app |
+| "Aparece chamada perdida mesmo assim" | Você está em Android 5.0-6.0 (limitação do sistema). Em 7+ funciona 100% silencioso |
 | "O app para de funcionar depois de um tempo" | Ative "Ignorar otimização de bateria" nas permissões |
-| "MIUI desliga o app em segundo plano" | Ative "Auto-iniciar" nas configurações do MIUI → Apps → Bloqueador BR |
+| "MIUI desliga o app em segundo plano" | Ative "Auto-iniciar" nas configurações do MIUI → Apps → Quiet |
 | "Não consigo receber ligação do banco" | Adicione o número do banco na whitelist (use o número oficial, não o que aparece no SMS) |
-| "Comprei mas não recebi o código" | Verifique o spam do email. Se não chegou em 30min, contate o suporte |
+| "Doei mas não recebi o código" | Verifique o spam do email. O remetente é `arielcloss@gmail.com`. Se não chegou em 30min, contate o desenvolvedor |
 
 ---
 
 ## 📞 Suporte
 
-Para reportar bugs ou sugerir melhorias, abra uma issue no repositório do projeto.
+- **Email do desenvolvedor:** arielcloss@gmail.com
+- **PIX (doações):** +55 69 9342-7132 ou arielcloss@gmail.com (NUBANK)
+
+Para reportar bugs ou sugerir melhorias, envie um email para o desenvolvedor.
+
+---
 
 **Made com ❤️ para o Brasil.**
+*Versão 1.0 - Jaguatirica*

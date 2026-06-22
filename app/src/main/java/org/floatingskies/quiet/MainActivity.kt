@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             val whitelist = db.whitelistDao().listarTodos()
             val bloqueadas = db.blockedCallDao().contar()
 
-            val limite = if (prefs.ativado) Int.MAX_VALUE else 30
+            val limite = if (prefs.ativado) Int.MAX_VALUE else 11
             binding.txtWhitelistCount.text = if (prefs.ativado) {
                 "${whitelist.size} contatos (ilimitado) ❤️"
             } else {

@@ -13,7 +13,7 @@ android {
         minSdk 21          // Android 5.0 Lollipop (99%+ cobertura no Brasil em 2024)
         targetSdk 34       // Android 14
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0 - Jaguatirica"
         vectorDrawables.useSupportLibrary = true
     }
 
