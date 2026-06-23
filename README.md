@@ -45,7 +45,7 @@ App Android que **bloqueia 100% das chamadas** que não estão na sua **lista de
 
 ## 💛 Doação vitalícia — R$ 4,99
 
-Esta é uma **doação**, não uma compra. Ela ajuda o desenvolvedor a manter o projeto vivo, pagar servidores e melhorar o app para todos os brasileiros.
+Esta é uma **doação**, não uma compra. Ela ajuda o desenvolvedor a manter o projeto vivo, ajudar nas despesas do dev, e melhorar o projeto para todos
 
 ### Chaves PIX (NUBANK — Ariel Closs)
 
@@ -262,8 +262,6 @@ BloqueadorChamadasBR/
 - **DB**: Room 2.6.1
 - **QR Code**: ZXing + zxing-android-embedded
 - **Build**: Gradle 8.2 + Android Gradle Plugin 8.1.4
-- **Logo**: `org.floatingskies.Quiet.png` (PNG 512x512 RGBA, em todas as densidades)
-
 ---
 
 ## 📜 Versionamento
